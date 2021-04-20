@@ -1,4 +1,6 @@
 import copy 
+import numpy as np 
+
 def group_by(names, values):
     group_names = sorted(list(set(names)))
     group_subtables = [[] for _ in group_names]
@@ -13,7 +15,7 @@ def group_by(names, values):
     return group_names, group_subtables
 
 def calculate_avg_salaries(data):
-    header = ["_id", "avg_salary"]
+    header = ["id", "avg_salary"]
     avg_salaries = []
     player_ids = []
     for instance in data: 
@@ -36,8 +38,33 @@ def remove_players(data, header):
     games = header.index("career_G")
     data_copy = copy.deepcopy(data)
     for instance in data: 
-        if instance[year] < 1985:
-            data_copy.remove(instance)
-        elif instance[games] < 50:
+        if instance[year] < 200 or instance[games] < 82:
             data_copy.remove(instance)
     return data_copy
+
+def compute_equal_width_cutoffs(values, num_bins):
+    # first compute the range of the values
+    values_range = max(values) - min(values)
+    bin_width = values_range / num_bins 
+    # bin_width is likely a float
+    # if your application allows for ints, use them
+    # we will use floats
+    # np.arange() is like the built in range() but for floats
+    cutoffs = list(np.arange(min(values), max(values), bin_width)) 
+    cutoffs.append(max(values))
+    # optionally: might want to round
+    cutoffs = [round(cutoff, 2) for cutoff in cutoffs]
+    return cutoffs 
+    
+def compute_bin_frequencies(values, cutoffs):
+    freqs = [0 for _ in range(len(cutoffs) - 1)]
+
+    for val in values:
+        if val == max(values):
+            freqs[-1] += 1
+        else:
+            for i in range(len(cutoffs) - 1):
+                if cutoffs[i] <= val < cutoffs[i + 1]:
+                    freqs[i] += 1
+
+    return freqs

@@ -178,7 +178,7 @@ class MyPyTable:
             index = self.column_names.index(title)
     
             for row in new_table: 
-                if row[index] == "NA" or row[index] == "N/A" or row[index] == '':  
+                if row[index] == 'NA' or row[index] == "N/A" or row[index] == '':  
                     if row not in rowsToRemove:
                         rowsToRemove.append(row)
     
@@ -259,45 +259,26 @@ class MyPyTable:
         Returns:
             MyPyTable: the inner joined table.
         """
-        col_names = copy.deepcopy(self.column_names) 
-        table = copy.deepcopy(self.data) 
-        other = copy.deepcopy(other_table.data) 
         joined_table = []
-        indexes1 = []
-        indexes2 = []
-        rows = [] 
-        joined_indexes = []
-        joined_rows = []
-        for name in key_column_names: 
-            indexes1.append(self.column_names.index(name))
-            indexes2.append(other_table.column_names.index(name))
-        for row in table: 
-            temp_row = []
-            for index in indexes1: 
-                value = copy.deepcopy(row[index])
-                temp_row.append(value)
-            rows.append(temp_row)
-        for row in other_table.data: 
-            temp_row = []
-            for index in indexes2: 
-                temp_row.append(row[index])
-            if temp_row in rows: 
-                joined_rows.append(temp_row)
-                for _ in range(rows.count(temp_row)):
-                    joined_indexes.append(other.index(row))
-        for row in rows: 
-            if row in joined_rows:
-                index = rows.index(row)
-                joined_table.append(self.data[rows.index(row)]) 
-                rows[index] = []    
-        for name in other_table.column_names:
-            if name not in col_names: 
-                col_names.append(name)
-                for index in joined_indexes: 
-                    value = other[index][other_table.column_names.index(name)]
-                    joined_table[joined_indexes.index(index)].append(value) 
-                    joined_indexes[joined_indexes.index(index)] = 0
-        return MyPyTable(col_names, joined_table) 
+        joined_header = self.column_names.copy()
+        for col_name in other_table.column_names:
+            if col_name not in joined_header:
+                joined_header.append(col_name)
+        for row in self.data:
+            for i in range(len(other_table.data)):
+                match = True 
+                for col_name in key_column_names:
+                    index = self.column_names.index(col_name)
+                    if row[index] not in other_table.data[i]:
+                        match = False 
+                        break
+                    if match == True:
+                        temp_row = row 
+                        for j in range(len(other_table.data[i])):
+                            if other_table.column_names[j] not in self.column_names:
+                                temp_row.append(other_table.data[i][j])
+                        joined_table.append(temp_row)
+        return MyPyTable(joined_header, joined_table)
 
     def perform_full_outer_join(self, other_table, key_column_names):
         """Return a new MyPyTable that is this MyPyTable fully outer joined with other_table based on key_column_names.

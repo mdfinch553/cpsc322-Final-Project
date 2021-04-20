@@ -1,4 +1,4 @@
-_id,avg_salary
+id,avg_salary
 abdelal01,568800.0
 abdulka01,2140000.0
 abdulma02,2205500.0
