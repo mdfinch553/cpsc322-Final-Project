@@ -1,5 +1,6 @@
 import copy 
 import numpy as np 
+import matplotlib.pyplot as plt
 
 def group_by(names, values):
     group_names = sorted(list(set(names)))
@@ -38,7 +39,7 @@ def remove_players(data, header):
     games = header.index("career_G")
     data_copy = copy.deepcopy(data)
     for instance in data: 
-        if instance[year] < 200 or instance[games] < 82:
+        if instance[games] < 164 or instance[year] < 1985:
             data_copy.remove(instance)
     return data_copy
 
@@ -68,3 +69,11 @@ def compute_bin_frequencies(values, cutoffs):
                     freqs[i] += 1
 
     return freqs
+
+def generate_histogram(data, title, xlabel, ylabel): 
+    plt.figure()
+    plt.hist(data, bins=10)
+    plt.title(title)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.show()
