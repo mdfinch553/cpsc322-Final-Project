@@ -11,6 +11,7 @@
 import myutils as myutils
 import operator
 import random
+import copy
 
 class MySimpleLinearRegressor:
     """Represents a simple linear regressor.
@@ -364,7 +365,7 @@ class MyRandomForrestClassifier:
         Loosely based on sklearn's DecisionTreeClassifier: https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html
         Terminology: instance = sample = row and attribute = feature = column
     """
-    def __init__(self):
+    def __init__(self, M=3, N=5, F=2):
         """Initializer for MyDecisionTreeClassifier.
         """
         self.X_train = None 
@@ -372,6 +373,11 @@ class MyRandomForrestClassifier:
         self.trees = None
         self.test_set = None 
         self.remainder_set = None
+        self.attributes = None
+        self.attribute_indexes = None
+        self.M = M
+        self.N = N
+        self.F = F
 
     def fit(self, X_train, y_train):
         """Fits a decision tree classifier to X_train and y_train using the TDIDT (top down induction of decision tree) algorithm.
@@ -387,7 +393,97 @@ class MyRandomForrestClassifier:
             Store the tree in the tree attribute.
             Use attribute indexes to construct default attribute names (e.g. "att0", "att1", ...).
         """
-        
+        # split train set into test_set and remainder set
+        heading = []
+        self.X_train = X_train
+        self.y_train = y_train
+        for i in range(len(X_train[0])):
+            heading_value = "att" + str(i)
+            heading.append(heading_value)
+        test_set, remainder_set = myutils.random_stratifed_test_set(self.X_train, self.y_train)
+        self.test_set = test_set
+        self.remainder_set = remainder_set
+        self.attributes = copy.deepcopy(heading)
+        # N random decision trees
+
+        #select F random attributes 
+        # call random_startified_test on remainder_set
+        # limit training set to only include instances for random attributes 
+        # use training set to build tree 
+        # predict using validation set 
+        # get accuracy 
+        # Repeat N times 
+        accuracies = []
+        trees = []
+        available_attributes = copy.deepcopy(heading)
+        att_indexes = []
+        for i in range(self.N):
+            attributes = []
+            attribute_indexes = []
+            while len(attributes) < self.F:
+                i = random.randint(0, len(heading) - 1)
+                attribute = heading[i] 
+                if attribute not in attributes and attribute in available_attributes :
+                    attributes.append(attribute)
+                    attribute_indexes.append(i)
+                    available_attributes.remove(attribute)
+            att_indexes.append(attribute_indexes)
+            X_set = []
+            Y_set = []
+            for instance in remainder_set:
+                sub_set = []
+                for index in attribute_indexes:
+                    sub_set.append(instance[0][index])
+                X_set.append(sub_set)
+                Y_set.append(instance[1])
+            validation_set, train_set = myutils.random_stratifed_test_set(X_set, Y_set)
+            
+            X_train = []
+            y_train = []
+            for instance in train_set: 
+                train = []
+                for item in instance[0]:
+                    train.append(item)
+                X_train.append(train)
+                y_train.append(instance[1])
+
+            X_test = []
+            y_test = []
+            for instance in validation_set: 
+                train = []
+                for item in instance[0]:
+                    train.append(item)
+                X_test.append(train)
+                y_test.append(instance[1])
+
+            d_tree = MyDecisionTreeClassifier()
+            d_tree.fit(X_train, y_train)
+            trees.append(d_tree.tree)
+
+            #find accuracy 
+            predicted = d_tree.predict(X_test)
+
+            num_correct = 0
+            total = len(y_test)
+            for i in range(len(y_test)):
+                if y_test[i] == predicted[i]:
+                    num_correct += 1
+            accuracy = num_correct/total
+            accuracies.append(accuracy)
+
+        # Select M most accurate of N decision trees
+        best_trees = []
+        best_tree_att_indexes = []
+        for i in range(self.M):
+            max_accuracy = max(accuracies)
+            index = accuracies.index(max_accuracy)
+            best_trees.append(trees[index])
+            best_tree_att_indexes.append(att_indexes[index])
+            att_indexes.remove(att_indexes[index])
+            trees.remove(trees[index])
+            accuracies.remove(max_accuracy)
+        self.trees = best_trees
+        self.attribute_indexes = best_tree_att_indexes
     def predict(self, X_test):
         """Makes predictions for test instances in X_test.
         Args:
@@ -396,3 +492,6 @@ class MyRandomForrestClassifier:
         Returns:
             y_predicted(list of obj): The predicted target y values (parallel to X_test)
         """
+
+my = MyRandomForrestClassifier(2, 3)
+my.fit([[1,2,3,4,5,6], [1,2,3,4,5,6], [1,2,3,4,5,6], [1,2,3,4,5,6], [1,2,3,4,5,6], [1,2,3,4,5,6], [1,2,3,4,5,6], [1,2,3,4,5,6]], ["yes", "no", "yes", "yes", "yes", "yes", "yes", "yes"])     

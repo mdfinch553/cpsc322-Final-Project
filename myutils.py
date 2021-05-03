@@ -1,5 +1,6 @@
 import numpy as np
 import math
+import random
 
 def compute_euclidean_distance(v1, v2):
     assert len(v1) == len(v2)
@@ -236,3 +237,27 @@ def decision_rules_rec(attribute_names, tree, rule, classifier):
     elif tree[0] == "Leaf":  # THEN 'classifier' == 'classifier val' 
         rule += "THEN " + classifier + " == " + str(tree[1])
         print(rule)
+def random_stratifed_test_set(X, y):
+    # split X into folds
+    header = ["X sample", "classifier"]
+    table = []
+    third_of_X_train = len(X)//3
+    test_set = []
+    remainder_set = []
+    i = 0
+    for sample in X:
+        row = []
+        row.append(sample)
+        row.append(y[i])
+        i += 1
+        table.append(row)
+    classifiers, classifier_tables = group_by(table, header, "classifier")
+    while(len(test_set) < third_of_X_train):
+        for classifier_table in classifier_tables: 
+            index = random.randint(0, (len(classifier_table)-1))
+            instance = classifier_table[index] 
+            test_set.append(instance)
+            table.remove(instance)
+    for instance in table: 
+        remainder_set.append(instance)
+    return test_set, remainder_set 
