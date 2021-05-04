@@ -420,16 +420,14 @@ class MyRandomForrestClassifier:
         trees = []
         att_indexes = []
         for i in range(self.N):
-            available_attributes = copy.deepcopy(heading)
             attributes = []
             attribute_indexes = []
             while len(attributes) < self.F:
                 index = random.randint(0, len(heading)-1)
                 attribute = heading[index]
-                if attribute not in attributes and attribute in available_attributes :
+                if attribute not in attributes:
                     attributes.append(attribute)
                     attribute_indexes.append(index)
-                    available_attributes.remove(attribute)
             att_indexes.append(attribute_indexes)
             X_set = []
             for instance in remainder_set:
