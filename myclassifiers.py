@@ -353,6 +353,7 @@ class MyDecisionTreeClassifier:
         for i in range(2, len(self.tree)):
             myutils.decision_rules_rec(attribute_names, self.tree[i], print_statement, class_name)
         pass # TODO: fix this
+
 class MyRandomForrestClassifier:
     """Represents a decision tree classifier.
     Attributes:
@@ -415,17 +416,17 @@ class MyRandomForrestClassifier:
         # Repeat N times 
         accuracies = []
         trees = []
-        available_attributes = copy.deepcopy(heading)
         att_indexes = []
         for i in range(self.N):
+            available_attributes = copy.deepcopy(heading)
             attributes = []
             attribute_indexes = []
             while len(attributes) < self.F:
-                i = random.randint(0, len(heading) - 1)
-                attribute = heading[i] 
+                index = random.randint(0, len(heading) - 1)
+                attribute = heading[index] 
                 if attribute not in attributes and attribute in available_attributes :
                     attributes.append(attribute)
-                    attribute_indexes.append(i)
+                    attribute_indexes.append(index)
                     available_attributes.remove(attribute)
             att_indexes.append(attribute_indexes)
             X_set = []
@@ -436,6 +437,7 @@ class MyRandomForrestClassifier:
                     sub_set.append(instance[0][index])
                 X_set.append(sub_set)
                 Y_set.append(instance[1])
+            #print(X_set, Y_set)
             validation_set, train_set = myutils.random_stratifed_test_set(X_set, Y_set)
             
             X_train = []
@@ -459,14 +461,16 @@ class MyRandomForrestClassifier:
             d_tree = MyDecisionTreeClassifier()
             d_tree.fit(X_train, y_train)
             trees.append(d_tree.tree)
+            d_tree.print_decision_rules()
+            print("-------------")
 
             #find accuracy 
             predicted = d_tree.predict(X_test)
 
             num_correct = 0
             total = len(y_test)
-            for i in range(len(y_test)):
-                if y_test[i] == predicted[i]:
+            for j in range(len(y_test)):
+                if y_test[j] == predicted[j]:
                     num_correct += 1
             accuracy = num_correct/total
             accuracies.append(accuracy)
@@ -484,7 +488,7 @@ class MyRandomForrestClassifier:
             accuracies.remove(max_accuracy)
         self.trees = best_trees
         self.attribute_indexes = best_tree_att_indexes
-    def predict(self, X_test):
+    def predict(self):
         """Makes predictions for test instances in X_test.
         Args:
             X_test(list of list of obj): The list of testing samples
@@ -492,6 +496,50 @@ class MyRandomForrestClassifier:
         Returns:
             y_predicted(list of obj): The predicted target y values (parallel to X_test)
         """
+        y_predicted = []
+        X_test = self.test_set.copy()
+        all_predictions = []
+        for test in X_test:
+            temp = []
+            for i in range(len(self.trees)):
+                tree = self.trees[i]
+                heading = []
+                test_sub_set = []
+                for j in range(len(self.attribute_indexes[i])):
+                    heading_value = "att" + str(j)
+                    heading.append(heading_value)
+                    test_sub_set.append(test[0][self.attribute_indexes[i][j]])
+                temp.append(myutils.tdidt_predict(heading, tree, test_sub_set))
+            all_predictions.append(temp)
+        print(all_predictions)
+        for item in all_predictions:
+            y_predicted.append(myutils.forest_majority_voting(item))
+        print(y_predicted)
 
-my = MyRandomForrestClassifier(2, 3)
-my.fit([[1,2,3,4,5,6], [1,2,3,4,5,6], [1,2,3,4,5,6], [1,2,3,4,5,6], [1,2,3,4,5,6], [1,2,3,4,5,6], [1,2,3,4,5,6], [1,2,3,4,5,6]], ["yes", "no", "yes", "yes", "yes", "yes", "yes", "yes"])     
+X = [
+    ["Senior", "Java", "no", "no", "False"],
+    ["Senior", "Java", "no", "yes", "False"],
+    ["Mid", "Python", "no", "no", "True"],
+    ["Junior", "Python", "no", "no", "True"],
+    ["Junior", "R", "yes", "no", "True"],
+    ["Junior", "R", "yes", "yes", "False"],
+    ["Mid", "R", "yes", "yes", "True"],
+    ["Senior", "Python", "no", "no", "False"],
+    ["Senior", "R", "yes", "no", "True"],
+    ["Junior", "Python", "yes", "no", "True"],
+    ["Senior", "Python", "yes", "yes", "True"],
+    ["Mid", "Python", "no", "yes", "True"],
+    ["Mid", "Java", "yes", "no", "True"],
+    ["Junior", "Python", "no", "yes", "False"]
+]
+X_train = []
+y = []
+for row in X:
+    y.append(row[len(row) - 1])
+    row.pop(len(row) - 1)
+    X_train.append(row)
+#print(X_train, y)
+my = MyRandomForrestClassifier(3, 5)
+my.fit(X_train, y)
+#my.fit([[1,2,3,4,5,6], [1,2,3,4,5,6], [1,2,3,4,5,6], [1,2,3,4,5,6], [1,2,3,4,5,6], [1,2,3,4,5,6], [1,2,3,4,5,6], [1,2,3,4,5,6]], ["yes", "no", "yes", "yes", "yes", "yes", "yes", "yes"])
+my.predict()     

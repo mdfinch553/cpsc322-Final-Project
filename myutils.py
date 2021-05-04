@@ -211,6 +211,7 @@ def tdidt_predict(header, tree, instance):
     if info_type == "Attribute":
         # get the value of this attribute for the instance
         attribute_index = header.index(tree[1])
+        #print(attribute_index, tree[1], instance)
         instance_value = instance[attribute_index]
         for i in range(2, len(tree)):
             value_list = tree[i]
@@ -237,6 +238,7 @@ def decision_rules_rec(attribute_names, tree, rule, classifier):
     elif tree[0] == "Leaf":  # THEN 'classifier' == 'classifier val' 
         rule += "THEN " + classifier + " == " + str(tree[1])
         print(rule)
+
 def random_stratifed_test_set(X, y):
     # split X into folds
     header = ["X sample", "classifier"]
@@ -258,6 +260,11 @@ def random_stratifed_test_set(X, y):
             instance = classifier_table[index] 
             test_set.append(instance)
             table.remove(instance)
+            classifier_table.remove(instance)
     for instance in table: 
         remainder_set.append(instance)
     return test_set, remainder_set 
+
+def forest_majority_voting(predictions):
+    values, counts = get_frequencies(predictions)
+    return values[counts.index(max(counts))]
