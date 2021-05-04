@@ -239,8 +239,10 @@ def decision_rules_rec(attribute_names, tree, rule, classifier):
         rule += "THEN " + classifier + " == " + str(tree[1])
         print(rule)
 
-def random_stratifed_test_set(X, y):
+def random_stratifed_test_set(X, y, seed):
     # split X into folds
+    if seed != None:
+        np.random.seed(seed)
     header = ["X sample", "classifier"]
     table = []
     third_of_X_train = len(X)//3

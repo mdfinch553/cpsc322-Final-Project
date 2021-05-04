@@ -380,7 +380,7 @@ class MyRandomForrestClassifier:
         self.N = N
         self.F = F
 
-    def fit(self, X_train, y_train):
+    def fit(self, X_train, y_train, seed=None):
         """Fits a decision tree classifier to X_train and y_train using the TDIDT (top down induction of decision tree) algorithm.
         Args:
             X_train(list of list of obj): The list of training instances (samples). 
@@ -394,6 +394,8 @@ class MyRandomForrestClassifier:
             Store the tree in the tree attribute.
             Use attribute indexes to construct default attribute names (e.g. "att0", "att1", ...).
         """
+        if seed != None:
+            random.seed(seed)
         # split train set into test_set and remainder set
         heading = []
         self.X_train = X_train
@@ -401,7 +403,7 @@ class MyRandomForrestClassifier:
         for i in range(len(X_train[0])):
             heading_value = "att" + str(i)
             heading.append(heading_value)
-        test_set, remainder_set = myutils.random_stratifed_test_set(self.X_train, self.y_train)
+        test_set, remainder_set = myutils.random_stratifed_test_set(self.X_train, self.y_train, seed)
         self.test_set = test_set
         self.remainder_set = remainder_set
         self.attributes = copy.deepcopy(heading)
@@ -422,8 +424,8 @@ class MyRandomForrestClassifier:
             attributes = []
             attribute_indexes = []
             while len(attributes) < self.F:
-                index = random.randint(0, len(heading) - 1)
-                attribute = heading[index] 
+                index = random.randint(0, len(heading)-1)
+                attribute = heading[index]
                 if attribute not in attributes and attribute in available_attributes :
                     attributes.append(attribute)
                     attribute_indexes.append(index)
@@ -438,7 +440,7 @@ class MyRandomForrestClassifier:
                 X_set.append(sub_set)
                 Y_set.append(instance[1])
             #print(X_set, Y_set)
-            validation_set, train_set = myutils.random_stratifed_test_set(X_set, Y_set)
+            validation_set, train_set = myutils.random_stratifed_test_set(X_set, Y_set, seed)
             
             X_train = []
             y_train = []
@@ -488,7 +490,8 @@ class MyRandomForrestClassifier:
             accuracies.remove(max_accuracy)
         self.trees = best_trees
         self.attribute_indexes = best_tree_att_indexes
-    def predict(self):
+
+    def predict(self, X_test):
         """Makes predictions for test instances in X_test.
         Args:
             X_test(list of list of obj): The list of testing samples
@@ -497,7 +500,6 @@ class MyRandomForrestClassifier:
             y_predicted(list of obj): The predicted target y values (parallel to X_test)
         """
         y_predicted = []
-        X_test = self.test_set.copy()
         all_predictions = []
         for test in X_test:
             temp = []
@@ -508,15 +510,15 @@ class MyRandomForrestClassifier:
                 for j in range(len(self.attribute_indexes[i])):
                     heading_value = "att" + str(j)
                     heading.append(heading_value)
-                    test_sub_set.append(test[0][self.attribute_indexes[i][j]])
+                    test_sub_set.append(test[self.attribute_indexes[i][j]])
                 temp.append(myutils.tdidt_predict(heading, tree, test_sub_set))
             all_predictions.append(temp)
         print(all_predictions)
         for item in all_predictions:
             y_predicted.append(myutils.forest_majority_voting(item))
-        print(y_predicted)
+        return  y_predicted
 
-X = [
+'''X = [
     ["Senior", "Java", "no", "no", "False"],
     ["Senior", "Java", "no", "yes", "False"],
     ["Mid", "Python", "no", "no", "True"],
@@ -542,4 +544,4 @@ for row in X:
 my = MyRandomForrestClassifier(3, 5)
 my.fit(X_train, y)
 #my.fit([[1,2,3,4,5,6], [1,2,3,4,5,6], [1,2,3,4,5,6], [1,2,3,4,5,6], [1,2,3,4,5,6], [1,2,3,4,5,6], [1,2,3,4,5,6], [1,2,3,4,5,6]], ["yes", "no", "yes", "yes", "yes", "yes", "yes", "yes"])
-my.predict()     
+my.predict()'''     
