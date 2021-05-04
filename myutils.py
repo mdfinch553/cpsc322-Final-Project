@@ -270,6 +270,39 @@ def random_stratifed_test_set(X, y, seed):
     for instance in table: 
         remainder_set.append(instance)
     return test_set, remainder_set 
+def bootstrap_sets(X, y, seed):
+    if seed != None:
+        np.random.seed(seed)
+    header = ["X sample", "classifier"]
+    table = []
+    third_of_X_train = int(len(X) * .37)
+    rest_of_X_train = len(X) - third_of_X_train
+    
+    test_set = []
+    remainder_set = []
+    i = 0
+    for sample in X:
+        row = []
+        row.append(sample)
+        row.append(y[i])
+        i += 1
+        table.append(row)
+    classifiers, classifier_tables = group_by(table, header, "classifier")
+    while(len(test_set) < third_of_X_train):
+        for classifier_table in classifier_tables: 
+            if len(classifier_table) == 0:
+                break
+            index = random.randint(0, (len(classifier_table)-1))
+            instance = classifier_table[index] 
+            test_set.append(instance)
+    while(len(remainder_set) < rest_of_X_train):
+        for classifier_table in classifier_tables: 
+            if len(classifier_table) == 0:
+                break
+            index = random.randint(0, (len(classifier_table)-1))
+            instance = classifier_table[index] 
+            remainder_set.append(instance)
+    return test_set, remainder_set 
 
 def forest_majority_voting(predictions):
     values, counts = get_frequencies(predictions)

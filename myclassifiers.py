@@ -440,7 +440,7 @@ class MyRandomForrestClassifier:
                 X_set.append(sub_set)
                 Y_set.append(instance[1])
             #print(X_set, Y_set)
-            validation_set, train_set = myutils.random_stratifed_test_set(X_set, Y_set, seed)
+            validation_set, train_set = myutils.bootstrap_sets(X_set, Y_set, seed)
             
             X_train = []
             y_train = []
