@@ -441,9 +441,7 @@ class MyRandomForrestClassifier:
                 temp.append(instance[1])
                 X_set.append(temp)
             #print(X_set, Y_set)
-            print(X_set)
             validation_set, train_set = myutils.bootstrap_sets(X_set, seed)
-            print(train_set)
             X_train = []
             y_train = []
             for instance in train_set: 
@@ -475,8 +473,8 @@ class MyRandomForrestClassifier:
                     num_correct += 1
             accuracy = num_correct/total
             accuracies.append(accuracy)
-            d_tree.print_decision_rules()
-            print()
+            #d_tree.print_decision_rules()
+            #print()
         # Select M most accurate of N decision trees
         best_trees = []
         best_tree_att_indexes = []
@@ -507,7 +505,6 @@ class MyRandomForrestClassifier:
                 tree = self.trees[i]
                 heading = []
                 test_sub_set = []
-                print(self.attribute_indexes)
                 for j in range(len(self.attribute_indexes[i])):
                     heading_value = "att" + str(j)
                     heading.append(heading_value)
