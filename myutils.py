@@ -42,6 +42,8 @@ def get_nbayes_xy(table, header, y_col_name):
 
 def get_frequencies(col):
     # print(col)
+    while None in col:
+        col.remove(None)
     col.sort() # inplace
     values = []
     counts = []
@@ -258,6 +260,8 @@ def random_stratifed_test_set(X, y, seed):
     classifiers, classifier_tables = group_by(table, header, "classifier")
     while(len(test_set) < third_of_X_train):
         for classifier_table in classifier_tables: 
+            if len(classifier_table) == 0:
+                break
             index = random.randint(0, (len(classifier_table)-1))
             instance = classifier_table[index] 
             test_set.append(instance)

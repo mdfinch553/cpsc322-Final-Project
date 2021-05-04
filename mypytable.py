@@ -178,7 +178,7 @@ class MyPyTable:
             index = self.column_names.index(title)
     
             for row in new_table: 
-                if row[index] == 'NA' or row[index] == "N/A" or row[index] == '':  
+                if row[index] == 'NA' or row[index] == "N/A" or row[index] == '' or row[index] == '-':  
                     if row not in rowsToRemove:
                         rowsToRemove.append(row)
     

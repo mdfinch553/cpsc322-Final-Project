@@ -463,8 +463,6 @@ class MyRandomForrestClassifier:
             d_tree = MyDecisionTreeClassifier()
             d_tree.fit(X_train, y_train)
             trees.append(d_tree.tree)
-            d_tree.print_decision_rules()
-            print("-------------")
 
             #find accuracy 
             predicted = d_tree.predict(X_test)
@@ -513,7 +511,6 @@ class MyRandomForrestClassifier:
                     test_sub_set.append(test[self.attribute_indexes[i][j]])
                 temp.append(myutils.tdidt_predict(heading, tree, test_sub_set))
             all_predictions.append(temp)
-        print(all_predictions)
         for item in all_predictions:
             y_predicted.append(myutils.forest_majority_voting(item))
         return  y_predicted
