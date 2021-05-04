@@ -44,7 +44,7 @@ def tdidt_predict(header, tree, instance):
         return tree[1]
 
 def predict_interviews_well(instance):
-    infile = open("tree.p", "rb")
+    infile = open("web_app_deployment/tree.p", "rb")
     header, tree = pickle.load(infile)
     infile.close()
     print("header:", header)

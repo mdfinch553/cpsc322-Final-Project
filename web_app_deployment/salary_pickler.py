@@ -5,6 +5,6 @@ salary_tree = ['Attribute', 'games', ['Value', 1, ['Leaf', 1, 141, 771]], ['Valu
 
 packaged_object = [header, salary_tree]
 # pickle packaged_object
-outfile = open("tree.p", "wb")
+outfile = open("web_app_deployment/tree.p", "wb")
 pickle.dump(packaged_object, outfile)
 outfile.close()
