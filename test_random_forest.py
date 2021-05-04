@@ -26,7 +26,8 @@ for row in interview_table:
 def test_my_random_forest_fit():
     forest_classifier = MyRandomForrestClassifier()
     forest_classifier.fit(X_train, y, seed=1)
-    correct_trees = [['Attribute', 'att1', ['Value', 'Junior', ['Leaf', 'False', 0, 2]], ['Value', 'Mid', ['Leaf', 'True', 2, 6]], ['Value', 'Senior', ['Leaf', 'True', 2, 6]]], ['Attribute', 'att0', ['Value', 'no', ['Leaf', 'True', 3, 6]], ['Value', 'yes', ['Leaf', 'True', 0, 3, ['Value', 'Python', ['Leaf', 'False', 2, 3]], ['Value', 'R', ['Leaf', 'True', 1, 3]]]]], ['Attribute', 'att0', ['Value', 'Junior', ['Leaf', 'True', 1, 6]], ['Value', 'Mid', ['Leaf', 'True', 2, 6]], ['Value', 'Senior', ['Attribute', 'att1', ['Value', 'no', ['Leaf', 'False', 2, 3]], ['Value', 'yes', ['Leaf', 'True', 1, 3]]]]]]
+    correct_trees = [['Attribute', 'att1', ['Value', 'Java', ['Leaf', 'False', 0, 2]], ['Value', 'Python', ['Leaf', 'True', 2, 6]], ['Value', 'R', ['Leaf', 'True', 2, 6]]], ['Attribute', 'att0', ['Value', 'no', ['Leaf', 'False', 1, 6]], ['Value', 'yes', ['Leaf', 'True', 5, 6]]], ['Attribute', 'att0', ['Value', 'no', ['Leaf', 'False', 1, 6]], ['Value', 'yes', ['Leaf', 'True', 5, 6]]]]
+    print(forest_classifier.trees)
     assert forest_classifier.trees == correct_trees
 
 def test_my_random_forest_predict():
