@@ -27,3 +27,9 @@ __pycache__/dataPrepUtils.cpython-38.pyc
 __pycache__/myevaluation.cpython-38.pyc
 __pycache__/mypytable.cpython-38.pyc
 __pycache__/myutils.cpython-38.pyc
+mysklearn/__pycache__/dataPrepUtils.cpython-38.pyc
+mysklearn/__pycache__/myevaluation.cpython-38.pyc
+mysklearn/__pycache__/myutils.cpython-38.pyc
+mysklearn/__pycache__/plot_utils.cpython-38.pyc
+mysklearn/__pycache__/mypytable.cpython-38.pyc
+mysklearn/__pycache__/myclassifiers.cpython-38.pyc

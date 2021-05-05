@@ -9,7 +9,7 @@
 # functions to aid in training and testing
 ##############################################
 
-import myutils as myutils
+import mysklearn.myutils as myutils
 import random
 import math
 

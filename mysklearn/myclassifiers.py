@@ -9,7 +9,7 @@
 # for prediction
 ##############################################
 
-import myutils as myutils
+import mysklearn.myutils as myutils
 import operator
 import random
 import copy
