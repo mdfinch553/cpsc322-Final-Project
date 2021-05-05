@@ -9,7 +9,7 @@ url = ""
 
 @app.route("/", methods=["GET"])
 def index():
-    return_string = "<h1>NBA Salary Predictor</h1>" + "\n" + "<h2>Estimate how Much Money an Nba Player Should Make Based on PER, Games, and Win Shares</h2>" "\n" + "<h3>Query Strings Should Look Something Like This: predict?name=NAME&per=0.0&games=0&ws=0.0</h3>"
+    return_string = "<h1>NBA Salary Predictor</h1>" + "\n" + "<h2>Estimate an NBA player's average career salary based on PER, games, and win shares</h2>"  + "\n" + "<h3>Here is a sample URL with a query string for the player Kendrick Perkins that you can use to test the classifier: https://nba-salary-app-adrian-michael.herokuapp.com/predict?name=Kendrick%20Perkins&per=10.7&games=782&ws=27.9</h3> " + "\n" + "<h3>Please replace the values in the URL with those of your choosing to test this classifier further</h3>"
     return return_string, 200
 @app.route("/predict", methods=["get"])
 def predict():
@@ -55,25 +55,25 @@ def predict_interviews_well(instance):
         return None 
 def get_salary_range(prediction):
     if prediction == 1:
-        return " should make under $1,609,676.10 per year."
+        return " salary is under $1,609,676.10 per year."
     elif prediction == 2:
-        return " should make between $1,609,676.10 and $3,149,352.20 per year."
+        return " salary is between $1,609,676.10 and $3,149,352.20 per year."
     elif prediction == 3: 
-        return " should make between $3,149,352.20 and $4,689,028.30 per year."
+        return " salary is between $3,149,352.20 and $4,689,028.30 per year."
     elif prediction == 4: 
-        return " should make between $4,689,028.30 and $6,228,704.40 per year."
+        return " salary is between $4,689,028.30 and $6,228,704.40 per year."
     elif prediction == 5: 
-        return " should make between $6,228,704.40 and $7,768,380.50 per year."
+        return " salary is between $6,228,704.40 and $7,768,380.50 per year."
     elif prediction == 6: 
-        return " should make between $7,768,380.50 and $9,308,056.60 per year."
+        return " salary is between $7,768,380.50 and $9,308,056.60 per year."
     elif prediction == 7: 
-        return " should make between $9,308,056.60 and $10,847,732.70 per year."
+        return " salary is between $9,308,056.60 and $10,847,732.70 per year."
     elif prediction == 8: 
-        return " should make between $10,847,732.70 and $12,387,408.80 per year."
+        return " salary is between $10,847,732.70 and $12,387,408.80 per year."
     elif prediction == 9: 
-        return " should make between $12,387,408.80 and $13,927,084.90 per year."
+        return " salary is between $12,387,408.80 and $13,927,084.90 per year."
     elif prediction == 10: 
-        return " should make over $13,927,084.90 per year."
+        return " salary is over $13,927,084.90 per year."
     return ""
 def categorical_games(games):
     if games < 296.6:
