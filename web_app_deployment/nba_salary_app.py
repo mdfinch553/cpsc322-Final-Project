@@ -55,25 +55,25 @@ def predict_interviews_well(instance):
         return None 
 def get_salary_range(prediction):
     if prediction == 1:
-        return " salary is under $1,609,676.10 per year."
+        return "'s salary is under $1,609,676.10 per year."
     elif prediction == 2:
-        return " salary is between $1,609,676.10 and $3,149,352.20 per year."
+        return "'s salary is between $1,609,676.10 and $3,149,352.20 per year."
     elif prediction == 3: 
-        return " salary is between $3,149,352.20 and $4,689,028.30 per year."
+        return "'s salary is between $3,149,352.20 and $4,689,028.30 per year."
     elif prediction == 4: 
-        return " salary is between $4,689,028.30 and $6,228,704.40 per year."
+        return "'s salary is between $4,689,028.30 and $6,228,704.40 per year."
     elif prediction == 5: 
-        return " salary is between $6,228,704.40 and $7,768,380.50 per year."
+        return "'s salary is between $6,228,704.40 and $7,768,380.50 per year."
     elif prediction == 6: 
-        return " salary is between $7,768,380.50 and $9,308,056.60 per year."
+        return "'s salary is between $7,768,380.50 and $9,308,056.60 per year."
     elif prediction == 7: 
-        return " salary is between $9,308,056.60 and $10,847,732.70 per year."
+        return "'s salary is between $9,308,056.60 and $10,847,732.70 per year."
     elif prediction == 8: 
-        return " salary is between $10,847,732.70 and $12,387,408.80 per year."
+        return "'s salary is between $10,847,732.70 and $12,387,408.80 per year."
     elif prediction == 9: 
-        return " salary is between $12,387,408.80 and $13,927,084.90 per year."
+        return "'s salary is between $12,387,408.80 and $13,927,084.90 per year."
     elif prediction == 10: 
-        return " salary is over $13,927,084.90 per year."
+        return "'s salary is over $13,927,084.90 per year."
     return ""
 def categorical_games(games):
     if games < 296.6:
