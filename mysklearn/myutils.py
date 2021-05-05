@@ -1,3 +1,14 @@
+##############################################
+# Programmer: Adrian Rabadam & Michael Finch
+# Class: CptS 322-01, Spring 2021
+# Final Project
+# 4/21/21
+# 
+# 
+# Description: This file defines utility 
+# functions for assisting in classification
+##############################################
+
 import numpy as np
 import math
 import random

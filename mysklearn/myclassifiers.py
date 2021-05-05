@@ -1,11 +1,12 @@
 ##############################################
-# Programmer: Adrian Rabadam
+# Programmer: Adrian Rabadam & Michael Finch
 # Class: CptS 322-01, Spring 2021
 # Final Project
 # 4/21/21
 # 
 # 
-# Description: This file defines the Linear Regressor, kNN classifier, Naive Bayes, and Decision Tree classes
+# Description: This file defines classifiers 
+# for prediction
 ##############################################
 
 import myutils as myutils

@@ -1,13 +1,18 @@
-# TODO: copy your mypytable.py solution from PA2 here
+##############################################
+# Programmer: Adrian Rabadam & Michael Finch
+# Class: CptS 322-01, Spring 2021
+# Final Project
+# 4/21/21
+# 
+# 
+# Description: This file defines the MyPyTable
+# class for storing and accessing data
+##############################################
+
 import copy
 import csv 
 from tabulate import tabulate
-# uncomment if you want to use the pretty_print() method
-# install tabulate with: pip install tabulate
 
-# required functions/methods are noted with TODOs
-# provided unit tests are in test_mypytable.py
-# do not modify this class name, required function/method headers, or the unit tests
 class MyPyTable:
     """Represents a 2D table of data with column names.
 

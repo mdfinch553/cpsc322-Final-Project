@@ -1,11 +1,12 @@
 ##############################################
-# Programmer: Adrian Rabadam
+# Programmer: Adrian Rabadam & Michael Finch
 # Class: CptS 322-01, Spring 2021
 # Final Project
 # 4/21/21
 # 
 # 
-# Description: This file defines the evaluator functions
+# Description: This file defines the evaluator 
+# functions to aid in training and testing
 ##############################################
 
 import myutils as myutils
