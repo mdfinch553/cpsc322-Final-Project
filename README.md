@@ -1,4 +1,4 @@
-# cpsc322-Final-Project
+# cpsc322 Final Project - Adrian and Michael 
 ## This project is a classifer that predicts an NBA player's average salary based on their career statistics 
 ### Checkout our deployed App at: https://nba-salary-app-adrian-michael.herokuapp.com/ Follow the Instructions on the homepage to test our classifier
 ## To test our random forest classifier, run "pytest --verbose" in a terminal 
