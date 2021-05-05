@@ -1,4 +1,4 @@
-from myclassifiers import MyRandomForrestClassifier
+from mysklearn.myclassifiers import MyRandomForrestClassifier
 
 interview_table = [
     ["Senior", "Java", "no", "no", "False"],
